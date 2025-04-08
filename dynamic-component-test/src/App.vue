@@ -12,17 +12,36 @@
     </div>
 
     <div class="container">
-        <keep-alive include="CoralSeaTab, MidwayTab">
+        <!-- <keep-alive include="CoralSeaTab, MidwayTab"> -->
             <component :is="currentTab"></component>
-        </keep-alive>
+        <!-- </keep-alive> -->
         
     </div>
 </template>
 
 <script>
-    import CoralSeaTab from './components/CoralSeaTab.vue';
-    import LeyteGulfTab from './components/LeyteGulfTab.vue';
-    import MidwayTab from './components/MidwayTab.vue';
+    // import CoralSeaTab from './components/CoralSeaTab.vue';
+    // import LeyteGulfTab from './components/LeyteGulfTab.vue';
+    // import MidwayTab from './components/MidwayTab.vue';
+
+    import { defineAsyncComponent } from 'vue';
+    import pMinDelay from 'p-min-delay';
+    import Loading from './components/Loading.vue';
+
+    const CoralSeaTab = defineAsyncComponent({
+        loader: () => pMinDelay(import('./components/CoralSeaTab.vue'), 2000),
+        loadingComponent: Loading,
+    })
+
+    const LeyteGulfTab = defineAsyncComponent({
+        loader: () => pMinDelay(import('./components/LeyteGulfTab.vue'), 2000),
+        loadingComponent: Loading,
+    })
+
+    const MidwayTab = defineAsyncComponent({
+        loader: () => pMinDelay(import('./components/MidwayTab.vue'), 2000),
+        loadingComponent: Loading,
+    })
 
     export default {
         name: 'App',

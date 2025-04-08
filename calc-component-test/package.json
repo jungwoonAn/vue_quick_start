@@ -1,5 +1,5 @@
 {
-  "name": "dynamic-component-test",
+  "name": "calc-component-test",
   "version": "0.0.0",
   "private": true,
   "type": "module",
@@ -9,10 +9,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "bootstrap": "^5.3.3",
-    "p-min-delay": "^4.1.0",
-    "vue": "^3.5.13",
-    "vue-csspin": "^0.1.12"
+    "vue": "^3.5.13"
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^5.2.1",
