@@ -2,6 +2,8 @@
     <div>
         X : <input type="text" v-model.number="x"><br>
         Y : <input type="text" v-model.number="y"><br>
+        <button @click="calcAdd">계산</button><br>
+        <p>결과 : {{ result }}</p>
     </div>
 </template>
 
@@ -9,11 +11,16 @@
     import { ref } from 'vue';
 
     export default {
-        name: 'Calc',
+        name: 'Calc2',
         setup(){
             const x = ref(10);
             const y = ref(20);
-            return {x, y}
+            const result = ref(30);
+
+            const calcAdd = () => {
+                result.value = x.value + y.value;
+            }
+            return {x, y, result, calcAdd}
         }
     }
 </script>
