@@ -24,7 +24,7 @@
         created() {  // 생명주기 메서드
             this.emitter.on('add-todo', this.addTodo)
             this.emitter.on('delete-todo', this.deleteTodo)
-            this.emitter.on('toggle-completed', this.toggleComplated)
+            this.emitter.on('toggle-completed', this.toggleCompleted)
         },
         data() {
             return {  // 데이터 정의
@@ -47,7 +47,7 @@
                 let index = this.todoList.findIndex(item => id === item.id)
                 this.todoList.splice(index, 1)
             },
-            toggleComplated(id) {
+            toggleCompleted(id) {
                 let index = this.todoList.findIndex(item => id === item.id)
                 this.todoList[index].completed = !this.todoList[index].completed
             }

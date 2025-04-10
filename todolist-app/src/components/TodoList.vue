@@ -21,6 +21,6 @@
                 required: true
             }
         },
-        // emits: ['delete-todo', 'toggle-complated'],
+        // emits: ['delete-todo', 'toggle-completed'],
     }
 </script>
