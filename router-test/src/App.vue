@@ -12,7 +12,7 @@
     provide('videos', [
         { "id":"t0BHhqw_Ecc", "title":"범 내려온다", "category":"official" },
         { "id":"FrCkLMxnlMI", "title":"좌우나졸", "category":"official" },
-        { "id":"7O0hIrgMcCg", "title":"별주부가 울며 여짜오되", "category":"official" },
+        { "id":"5U3gX9Qk4yk", "title":"별주부가 울며 여짜오되", "category":"official" },
         { "id":"MJD_fAdqNQc", "title":"어류도감", "category":"official" },
         { "id":"SmTRaSg2fTQ", "title":"범 내려온다", "category":"온스테이지2.0" },
         { "id":"B_X7n0AaLqA", "title":"범 내려온다(서울)", "category":"관광공사" },

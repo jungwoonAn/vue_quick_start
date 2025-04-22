@@ -11,9 +11,9 @@
                 :autoplay="1" :controls="1" @ended="playNext" />
             </div>
             <div class="controls">
-                <i class="fa-solid fa-backward ml-2 pointer" @click="playPrev"></i>
-                <i class="fa-solid fa-stop ml-2 pointer" @click="stopVideo"></i>
-                <i class="fa-solid fa-forward ml-2 pointer" @click="playPrev"></i>
+                <i class="fa-solid fa-backward pointer" @click="playPrev"></i>
+                <i class="fa-solid fa-stop mx-2 pointer" @click="stopVideo"></i>
+                <i class="fa-solid fa-forward pointer" @click="playNext"></i>
             </div>
         </div>
     </div>
@@ -21,43 +21,61 @@
 
 <script setup>
     import { inject, reactive, ref } from 'vue';
-    import { useRoute, useRouter } from 'vue-router';
+    import { onBeforeRouteUpdate, useRoute, useRouter } from 'vue-router';
     import { YoutubeVue3 } from 'youtube-vue3';
 
     const videos = inject('videos');
     const playerRef = ref(null);
     const currentRoute = useRoute();
     const router = useRouter();
+    // console.log(router)
 
-    let videoInfo = reactive({
+    let videoInfo, currentIndex, prevVideoId, nextVideoId;
+
+    videoInfo = reactive({
         video: videos.find(v => v.id === currentRoute.params.id)
     })
 
+    // 컴포넌트 수준의 내비게이션 가드 설정
+    const getNavId = to => {
+        videoInfo.video = videos.find(v => v.id === to.params.id);
+        currentIndex = videos.findIndex(v => v.id === videoInfo.video.id);
+        prevVideoId = videos[currentIndex-1] ? videos[currentIndex-1].id : null;
+        nextVideoId = videos[currentIndex+1] ? videos[currentIndex+1].id : null;
+    }
+
+    // 마운트 되었을 때 현재의 라우트 정보를 이용해 이전, 다음 ID획득
+    getNavId(currentRoute);
+    
     const stopVideo = () => {
         playerRef.value.player.stopVideo();
-        router.push('/videos');
+        router.push({name: 'videos'});
     }
 
     const playNext = () => {
-        const index = videos.findIndex(v => v.id === videoInfo.video.id);
-        const nextVideo = videos[index+1];
-        if(nextVideo) {
-            videoInfo.video = nextVideo;
-            router.push('/videos/' + nextVideo.id);
+        // const index = videos.findIndex(v => v.id === videoInfo.video.id);
+        // const nextVideo = videos[index+1];
+        if(nextVideoId) {
+            // videoInfo.video = nextVideo;
+            router.push({name: 'videos/id', params: {id: nextVideoId}});
         }else {
-            videoInfo.video = videos[0];
-            router.push('/videos' + videos[0].id);
+            // videoInfo.video = videos[0];
+            router.push({name: 'videos/id', params: {id: videos[0].id}});
         }
     }
 
     const playPrev = () => {
-        const index = videos.findIndex(v => v.id === videoInfo.video.id);
-        const prevVideo = videos[index-1];
-        if(prevVideo) {
-            videoInfo.video = prevVideo;
-            router.push('/videos/' + prevVideo.id)
+        // const index = videos.findIndex(v => v.id === videoInfo.video.id);
+        // const prevVideo = videos[index-1];
+        if(prevVideoId) {
+            // videoInfo.video = prevVideo;
+            router.push({name: 'videos/id', params: {id: prevVideoId}})
         }
     }
+
+    onBeforeRouteUpdate(to => {
+        getNavId(to)
+    })
 </script>
 
 <style scoped>
@@ -95,6 +113,7 @@
 .controls {
     margin-top: 10px;
     padding: 0;
+    text-align: center;
 }
 
 .pointer {
