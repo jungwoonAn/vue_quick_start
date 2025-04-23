@@ -1,11 +1,12 @@
 import { createRouter, createWebHistory, isNavigationFailure } from 'vue-router'
 
-import Home from '@/pages/Home.vue';
-import About from '@/pages/About.vue';
-import Members from '@/pages/Members.vue';
-import Videos from '@/pages/Videos.vue';
-import MemberInfo from '@/pages/MemberInfo.vue';
-import VideoPlayer from '@/pages/VideoPlayer.vue';
+const Home = () => import(/* webpackChunkName: "home" */ '@/pages/Home.vue');
+const About = () => import(/* webpackChunkName: "home" */ '@/pages/About.vue');
+const Members = () => import(/* webpackChunkName: "members" */ '@/pages/Members.vue');
+const Videos = () => import(/* webpackChunkName: "members" */ '@/pages/Videos.vue');
+const MemberInfo = () => import(/* webpackChunkName: "videos" */ '@/pages/MemberInfo.vue');
+const VideoPlayer = () => import(/* webpackChunkName: "videos" */ '@/pages/VideoPlayer.vue');
+const NotFound = () => import(/* webpackChunkName: "home" */ '@/pages/NotFound.vue');
 
 // 라우트 수준의 내비게이션 가드 설정
 const membersIdGuard = (to, from) => {
@@ -24,11 +25,12 @@ const router = createRouter({
         {path: '/about', name: 'about', component: About},
         {path: '/members', name: 'members', component: Members},
         {path: '/members/:id', name: 'members/id', component: MemberInfo,
-            beforeEnter: membersIdGuard
+            beforeEnter: membersIdGuard, props: true
         },
         {path: '/videos', name: 'videos', component: Videos,
             children: [{path: ':id', name: 'videos/id', component: VideoPlayer}]
-        }
+        },
+        {path: '/:paths(.*)*', name: 'NotFound', component: NotFound}
     ]
 })
 

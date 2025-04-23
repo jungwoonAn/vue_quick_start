@@ -1,12 +1,20 @@
 <template>
     <Header />
     <div class="container pt-3">   
-        <router-view />
+        <router-view v-slot="{Component}">
+            <Suspense timeout="0">
+                <Component :is="Component"></Component>
+                <template #fallback>
+                    <Loading />
+                </template>
+            </Suspense>
+        </router-view>
     </div>
 </template>
 
 <script setup>
     import Header from '@/components/Header.vue'
+    import Loading from './components/Loading.vue';
     import { provide } from 'vue';
 
     provide('videos', [
