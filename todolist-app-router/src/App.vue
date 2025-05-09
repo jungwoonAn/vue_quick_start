@@ -2,41 +2,18 @@
     <div class="container">
         <Header />
         <router-view />
+        <Loading v-if="isLoading" />
     </div>
 </template>
 
 <script setup>
-import { reactive } from 'vue'
+import { computed } from 'vue'
 import Header from '@/components/Header.vue'
+import Loading from './components/Loading.vue';
+import { useTodoListStore } from './stores/todoList';
 
-const states = reactive({
-    todoList: [
-        {id:1, todo: 'ES6학습', desc: '설명1', done: false},
-        {id:2, todo: 'React학습', desc: '설명2', done: false},
-        {id:3, todo: 'ContextAPI학습', desc: '설명3', done: true},
-        {id:4, todo: '야구경기 관람', desc: '설명4', done: false},
-    ]
-})
-
-const addTodo = ({todo, desc}) => {
-    states.todoList.push({id: new Date().getTime(), todo, desc, done: false})
-}
-
-const updateTodo = ({id, todo, desc, done}) => {
-    let idx = states.todoList.findIndex(todo => todo.id === id)
-    states.todoList[idx] = {...states.todoList[idx], todo, desc, done}
-}
-
-const deleteTodo = id => {
-    let idx = states.todoList.findIndex(todo => todo.id === id)
-    states.todoList.splice(idx, 1)
-}
-
-const toggleDone = id => {
-    let idx = states.todoList.findIndex(todo => todo.id === id)
-    states.todoList[idx].done = !states.todoList[idx].done;
-}
-
-provide('todoList', computed(() => states.todoList))
-provide('actions', {addTodo, updateTodo, deleteTodo, toggleDone})
+const todoListStore = useTodoListStore()
+const isLoading = computed(() => todoListStore.isLoading)
+const fetchTodoList = todoListStore.fetchTodoList;
+fetchTodoList()
 </script>
